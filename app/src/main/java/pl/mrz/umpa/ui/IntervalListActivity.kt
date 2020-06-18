@@ -1,6 +1,8 @@
 package pl.mrz.umpa.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +18,8 @@ class IntervalListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: IntervalListRecyclerViewAdapter
     private lateinit var swipeRefresh: SwipeRefreshLayout
+    private lateinit var backBtn: ImageButton
+    private lateinit var saveBtn: ImageButton
 
     private lateinit var zoneConfig: ZoneConfig
     private val intervals: LinkedList<MutableLiveData<IntervalConfig>> = LinkedList()
@@ -37,6 +41,12 @@ class IntervalListActivity : AppCompatActivity() {
     private fun bindViews(){
         recyclerView = findViewById(R.id.intervallist_item_recycler_view)
         swipeRefresh = findViewById(R.id.intervallist_swipe_refresh)
+        backBtn = findViewById(R.id.return_save_toolbar_return_btn)
+        saveBtn = findViewById(R.id.return_save_toolbar_save_btn)
+
+        backBtn.setOnClickListener{
+            startActivity(Intent(this, StationListActivity::class.java))
+        }
     }
 
     private fun initRecyclerView(){
@@ -44,4 +54,5 @@ class IntervalListActivity : AppCompatActivity() {
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
+
 }
