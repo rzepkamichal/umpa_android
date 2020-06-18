@@ -13,7 +13,7 @@
     <string name="label_watering_preset">Profil:</string>
     <string name="label_force_open_valve">Wymuś otwarcie zaworu:</string>
     <string name="label_time_config">Konfiguracja czasowa</string>
-    <string name="label_station_config">Konfiguracja stacji</string>
+    <string name="label_station_config">Konfiguracja stacji...</string>
     <string name="label_today_rain">Dzisiejsze opady:</string>
     <string name="label_max_rain">Maksymalne opady:</string>
 </resources>
