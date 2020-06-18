@@ -1,7 +1,7 @@
 package pl.mrz.umpa.service
 
-import com.github.kittinunf.fuel.core.deserializers.StringDeserializer
 import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.deserializers.StringDeserializer
 import com.github.kittinunf.fuel.rx.rxResponseObject
 import io.reactivex.Single
 import pl.mrz.umpa.model.Rain
@@ -19,7 +19,7 @@ object ApiService {
     private const val CONFIG_ENDPOINT = "$HOST/configuration"
     private const val RAIN_ENDPOINT = "$HOST/rain"
 
-    private val http: FuelManager = buildHttpsFuelManager()
+    private val http: FuelManager = FuelManager()
     private val stationConfigJsonMapper = JsonMapper(StationConfig::class.java)
     private val rainJsonMapper = JsonMapper(Rain::class.java)
 
@@ -29,17 +29,18 @@ object ApiService {
             .rxResponseObject(stationConfigJsonMapper)
     }
 
+    fun updateConfiguration(config: StationConfig): Single<Any> {
+        return http
+            .put(CONFIG_ENDPOINT)
+            .header("Content-Type", "application/json")
+            .body(stationConfigJsonMapper.serialize(config))
+            .rxResponseObject(StringDeserializer())
+    }
+
     fun getRain(): Single<Rain> {
         return http
             .get(RAIN_ENDPOINT)
             .rxResponseObject(rainJsonMapper)
-    }
-
-    fun updateConfiguration(config: StationConfig): Single<Any> {
-        return http
-            .put(CONFIG_ENDPOINT)
-            .body(stationConfigJsonMapper.serialize(config))
-            .rxResponseObject(StringDeserializer())
     }
 
     private fun buildHttpsFuelManager(): FuelManager {
@@ -57,6 +58,7 @@ object ApiService {
                 init(null, trustAllCerts, java.security.SecureRandom())
             }.socketFactory
 
+            timeoutInMillisecond = 20000
             hostnameVerifier = HostnameVerifier { _, _ -> true }
         }
     }
