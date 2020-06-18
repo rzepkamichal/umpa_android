@@ -10,11 +10,11 @@ data class ZoneConfig (
 
     @param:JsonProperty("forceOpenValve")
     @get:JsonProperty("forceOpenValve")
-    val forceOpenValve: Int,
+    var forceOpenValve: Int,
 
     @param:JsonProperty("wateringPreset")
     @get:JsonProperty("wateringPreset")
-    val wateringPreset: Int,
+    var wateringPreset: Int,
 
     @param:JsonProperty("intervals")
     @get:JsonProperty("intervals")

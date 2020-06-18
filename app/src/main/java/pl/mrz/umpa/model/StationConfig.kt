@@ -6,7 +6,7 @@ data class StationConfig(
 
     @param:JsonProperty("maxRainInDay")
     @get:JsonProperty("maxRainInDay")
-    val maxRainInDay: Float,
+    var maxRainInDay: Float,
 
     @param:JsonProperty("zones")
     @get:JsonProperty("zones")

@@ -9,27 +9,27 @@ data class IntervalConfig(
 
     @param:JsonProperty("openValveHour")
     @get:JsonProperty("openValveHour")
-    val openValveHour: Int,
+    var openValveHour: Int,
 
     @param:JsonProperty("openValveMinute")
     @get:JsonProperty("openValveMinute")
-    val openValveMinute: Int,
+    var openValveMinute: Int,
 
     @param:JsonProperty("closeValveHour")
     @get:JsonProperty("closeValveHour")
-    val closeValveHour: Int,
+    var closeValveHour: Int,
 
     @param:JsonProperty("closeValveMinute")
     @get:JsonProperty("closeValveMinute")
-    val closeValveMinute: Int,
+    var closeValveMinute: Int,
 
     @param:JsonProperty("sunday")
     @get:JsonProperty("sunday")
-    val sunday: Int,
+    var sunday: Int,
 
     @param:JsonProperty("monday")
     @get:JsonProperty("monday")
-    val monday: Int,
+    var monday: Int,
 
     @param:JsonProperty("tuesday")
     @get:JsonProperty("tuesday")
