@@ -15,7 +15,7 @@ import javax.net.ssl.X509TrustManager
 
 object ApiService {
 
-    private const val HOST = "http://192.168.137.5"
+    private const val HOST = "http://192.168.137.211"
     private const val CONFIG_ENDPOINT = "$HOST/configuration"
     private const val RAIN_ENDPOINT = "$HOST/rain"
 

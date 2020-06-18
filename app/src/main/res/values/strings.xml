@@ -1,8 +1,16 @@
 <resources>
     <string name="app_name">umpa_app</string>
 
-    <string name="label_zone">Strefa:</string>
-    <string name="label_watering_preset">Profil nawadniania:</string>
+    <string-array name="watering_presets">
+        <item>Brak</item>
+        <item>Mało wymagające</item>
+        <item>Średnio wymagające</item>
+        <item>Wymagające</item>
+        <item>Bardzo wymagające</item>
+    </string-array>
+
+    <string name="label_zone">Strefa</string>
+    <string name="label_watering_preset">Profil:</string>
     <string name="label_force_open_valve">Wymuś otwarcie zaworu:</string>
     <string name="label_time_config">Konfiguracja czasowa</string>
     <string name="label_station_config">Konfiguracja stacji</string>
