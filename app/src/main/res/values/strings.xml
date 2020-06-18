@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">umpa_app</string>
 
+    <string name="intent_key_zone">zone</string>
+
     <string-array name="watering_presets">
         <item>Brak</item>
         <item>Mało wymagające</item>
@@ -8,6 +10,14 @@
         <item>Wymagające</item>
         <item>Bardzo wymagające</item>
     </string-array>
+
+    <string name="sunday">nd</string>
+    <string name="monday">pn</string>
+    <string name="tuesday">wt</string>
+    <string name="wednesday">śr</string>
+    <string name="thursday">cz</string>
+    <string name="friday">pt</string>
+    <string name="saturday">sb</string>
 
     <string name="label_zone">Strefa</string>
     <string name="label_watering_preset">Profil</string>

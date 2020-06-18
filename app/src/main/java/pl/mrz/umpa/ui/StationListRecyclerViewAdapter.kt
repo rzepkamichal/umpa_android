@@ -1,6 +1,7 @@
 package pl.mrz.umpa.ui
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,11 +40,10 @@ class StationListRecyclerViewAdapter(private val zones: List<MutableLiveData<Zon
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
             }
-
         }
 
         holder.intervalConfigBtn.setOnClickListener {
-
+            zones[position].value?.let { navigateToIntervalList(it) }
         }
     }
 
@@ -78,5 +78,12 @@ class StationListRecyclerViewAdapter(private val zones: List<MutableLiveData<Zon
                 presetSpinner.setSelection(0)
             }
         }
+    }
+
+    private fun navigateToIntervalList(zoneConfig: ZoneConfig) {
+        context ?: return
+        val intent = Intent(context!!, IntervalListActivity::class.java)
+            .apply { putExtra(context!!.getString(R.string.intent_key_zone), zoneConfig) }
+        context!!.startActivity(intent)
     }
 }

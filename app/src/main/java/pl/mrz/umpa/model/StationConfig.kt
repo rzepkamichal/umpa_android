@@ -1,6 +1,7 @@
 package pl.mrz.umpa.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
 data class StationConfig(
 
@@ -11,4 +12,4 @@ data class StationConfig(
     @param:JsonProperty("zones")
     @get:JsonProperty("zones")
     val zones: List<ZoneConfig>
-)
+) : Serializable

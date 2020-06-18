@@ -6,7 +6,6 @@ import com.github.kittinunf.fuel.rx.rxResponseObject
 import io.reactivex.Single
 import pl.mrz.umpa.model.Rain
 import pl.mrz.umpa.model.StationConfig
-import pl.mrz.umpa.util.JsonMapper
 import java.security.cert.X509Certificate
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
@@ -20,27 +19,26 @@ object ApiService {
     private const val RAIN_ENDPOINT = "$HOST/rain"
 
     private val http: FuelManager = FuelManager()
-    private val stationConfigJsonMapper = JsonMapper(StationConfig::class.java)
-    private val rainJsonMapper = JsonMapper(Rain::class.java)
+
 
     fun getConfiguration(): Single<StationConfig> {
         return http
             .get(CONFIG_ENDPOINT)
-            .rxResponseObject(stationConfigJsonMapper)
+            .rxResponseObject(MappingService.stationConfigJsonMapper)
     }
 
     fun updateConfiguration(config: StationConfig): Single<Any> {
         return http
             .put(CONFIG_ENDPOINT)
             .header("Content-Type", "application/json")
-            .body(stationConfigJsonMapper.serialize(config))
+            .body(MappingService.stationConfigJsonMapper.serialize(config))
             .rxResponseObject(StringDeserializer())
     }
 
     fun getRain(): Single<Rain> {
         return http
             .get(RAIN_ENDPOINT)
-            .rxResponseObject(rainJsonMapper)
+            .rxResponseObject(MappingService.rainJsonMapper)
     }
 
     private fun buildHttpsFuelManager(): FuelManager {

@@ -1,6 +1,7 @@
 package pl.mrz.umpa.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
 data class IntervalConfig(
     @param:JsonProperty("id")
@@ -33,21 +34,21 @@ data class IntervalConfig(
 
     @param:JsonProperty("tuesday")
     @get:JsonProperty("tuesday")
-    val tuesday: Int,
+    var tuesday: Int,
 
     @param:JsonProperty("wednesday")
     @get:JsonProperty("wednesday")
-    val wednesday: Int,
+    var wednesday: Int,
 
     @param:JsonProperty("thursday")
     @get:JsonProperty("thursday")
-    val thursday: Int,
+    var thursday: Int,
 
     @param:JsonProperty("friday")
     @get:JsonProperty("friday")
-    val friday: Int,
+    var friday: Int,
 
     @param:JsonProperty("saturday")
     @get:JsonProperty("saturday")
-    val saturday: Int
-)
+    var saturday: Int
+) : Serializable

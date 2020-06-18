@@ -1,8 +1,9 @@
 package pl.mrz.umpa.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
-data class ZoneConfig (
+data class ZoneConfig(
 
     @param:JsonProperty("id")
     @get:JsonProperty("id")
@@ -19,4 +20,4 @@ data class ZoneConfig (
     @param:JsonProperty("intervals")
     @get:JsonProperty("intervals")
     val intervals: List<IntervalConfig>
-)
+) : Serializable
