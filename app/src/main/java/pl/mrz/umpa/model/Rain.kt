@@ -1,5 +1,3 @@
 package pl.mrz.umpa.model
 
-class Rain {
-    var value = 4;
-}
+data class Rain(val rainToday: Float)

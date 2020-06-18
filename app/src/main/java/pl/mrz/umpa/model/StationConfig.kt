@@ -1,4 +1,6 @@
 package pl.mrz.umpa.model
 
-class StationConfig {
-}
+data class StationConfig(
+    val maxRainInDay: Float,
+    val zones: Array<ZoneConfig>
+)
