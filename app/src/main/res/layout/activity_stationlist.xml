@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include
-            android:id="@+id/station_settings_save_toolbar"
+            android:id="@+id/stationlist_toolbar"
             layout="@layout/save_toolbar" />
         <TextView
             android:id="@+id/textView4"

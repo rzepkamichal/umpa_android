@@ -8,13 +8,13 @@
     android:background="@color/colorToolbar">
 
     <RelativeLayout
-        android:id="@+id/simple_toolbar_relative_layout"
+        android:id="@+id/save_toolbar_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorToolbar">
 
         <ImageButton
-            android:id="@+id/simple_toolbar_return_btn"
+            android:id="@+id/save_toolbar_save_btn"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentStart="true"
