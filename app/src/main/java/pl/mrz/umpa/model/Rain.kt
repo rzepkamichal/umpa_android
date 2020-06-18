@@ -1,3 +1,9 @@
 package pl.mrz.umpa.model
 
-data class Rain(val rainToday: Float)
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class Rain(
+    @param:JsonProperty("rainToday")
+    @get:JsonProperty("rainToday")
+    val rainToday: Float
+)
