@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import pl.mrz.umpa.R
 import pl.mrz.umpa.model.ZoneConfig
 import pl.mrz.umpa.service.ApiService
@@ -25,14 +26,12 @@ class StationListActivity : AppCompatActivity() {
 
     private lateinit var todayRainTextVew: TextView
     private lateinit var maxRainTextView: TextView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stationlist)
-
-        todayRainTextVew = findViewById(R.id.stationlist_text_rain_today)
-        maxRainTextView = findViewById(R.id.stationlist_text_max_rain)
-        recyclerView = findViewById(R.id.stationlist_item_recycler_view)
+        bindViews()
         initRecyclerView()
     }
 
@@ -45,6 +44,14 @@ class StationListActivity : AppCompatActivity() {
     override fun onPause() {
         DisposableService.clear()
         super.onPause()
+    }
+
+    private fun bindViews(){
+        todayRainTextVew = findViewById(R.id.stationlist_text_rain_today)
+        maxRainTextView = findViewById(R.id.stationlist_text_max_rain)
+        recyclerView = findViewById(R.id.stationlist_item_recycler_view)
+        swipeRefresh = findViewById(R.id.stationlist_swipe_refresh)
+        swipeRefresh.setOnRefreshListener { loadData() }
     }
 
     private fun initRecyclerView() {
@@ -85,6 +92,9 @@ class StationListActivity : AppCompatActivity() {
                         zones.forEach { oldZone-> oldZone.value = it.zones.find{newZone -> oldZone.value?.id == newZone.id} }
                     }
                     recyclerViewAdapter.notifyDataSetChanged()
+
+                    if(swipeRefresh.isRefreshing)
+                        swipeRefresh.isRefreshing = false
                 },
                 {}
             )
