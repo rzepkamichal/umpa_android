@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import pl.mrz.umpa.R
-import pl.mrz.umpa.model.IntervalConfig
 
-class IntervalListRecyclerViewAdapter(private val intervals: List<MutableLiveData<IntervalConfig>>) :
+class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewModel>) :
     RecyclerView.Adapter<IntervalListRecyclerViewAdapter.ViewHolder>() {
 
     private var context: Context? = null
@@ -32,26 +31,20 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<MutableLiveDat
         context ?: return
         if (context !is LifecycleOwner) return
 
-        intervals[position].observe(context!! as LifecycleOwner, Observer<IntervalConfig> {
-            holder.idTextView.text = it.id.toString()
-            holder.openTimeBtn.text = """${it.openValveHour}:${it.openValveMinute}"""
-            holder.closeTimeBtn.text = """${it.closeValveHour}:${it.closeValveMinute}"""
+        holder.idTextView.text = intervals[position].id.toString()
+        initModelObservers(holder, intervals[position])
 
-            val sb = StringBuilder("")
-            if(it.sunday == 1) sb.append(context!!.getString(R.string.sunday))
-            if(it.monday == 1) sb.append(" " + context!!.getString(R.string.monday))
-            if(it.tuesday == 1) sb.append(" " + context!!.getString(R.string.tuesday))
-            if(it.wednesday == 1) sb.append(" " + context!!.getString(R.string.wednesday))
-            if(it.thursday == 1) sb.append(" " + context!!.getString(R.string.thursday))
-            if(it.friday == 1) sb.append(" " + context!!.getString(R.string.friday))
-            if(it.saturday == 1) sb.append(" " + context!!.getString(R.string.saturday))
+        holder.openTimeBtn.setOnClickListener {
+            TimePicker(intervals[position].openValveHour, intervals[position].openValveMinute)
+                .show((context!! as AppCompatActivity).supportFragmentManager, "")
+        }
 
-            holder.activeDaysBtn.text = sb.toString()
-        })
+        holder.closeTimeBtn.setOnClickListener {
+            TimePicker(intervals[position].closeValveHour, intervals[position].closeValveMinute)
+                .show((context!! as AppCompatActivity).supportFragmentManager, "")
+        }
 
-        holder.openTimeBtn.setOnClickListener{}
-        holder.closeTimeBtn.setOnClickListener{}
-        holder.activeDaysBtn.setOnClickListener{}
+        holder.activeDaysBtn.setOnClickListener {}
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -69,5 +62,96 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<MutableLiveDat
         val openTimeBtn: Button = itemView.findViewById(R.id.intervallist_item_open_time_btn)
         val closeTimeBtn: Button = itemView.findViewById(R.id.intervallist_item_close_time_btn)
         val activeDaysBtn: Button = itemView.findViewById(R.id.intervallist_item_active_days_btn)
+    }
+
+    private fun initModelObservers(holder: ViewHolder, interval: IntervalViewModel){
+        interval.openValveHour.observe(context!! as LifecycleOwner, Observer {
+            val minute = interval.openValveMinute.value ?: 0
+            holder.openTimeBtn.text = resolveTimeString(it, minute)
+        })
+
+        interval.openValveMinute.observe(context!! as LifecycleOwner, Observer {
+            val hour = interval.openValveHour.value ?: 0
+            holder.openTimeBtn.text = resolveTimeString(hour, it)
+        })
+
+        interval.closeValveHour.observe(context!! as LifecycleOwner, Observer {
+            val minute = interval.closeValveMinute.value ?: 0
+            holder.closeTimeBtn.text = resolveTimeString(it, minute)
+        })
+
+        interval.closeValveMinute.observe(context!! as LifecycleOwner, Observer {
+            val hour = interval.closeValveHour.value ?: 0
+            holder.closeTimeBtn.text = resolveTimeString(hour, it)
+        })
+
+        interval.sunday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+
+        interval.monday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+
+        interval.tuesday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+
+        interval.wednesday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+
+        interval.thursday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+
+        interval.friday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+
+        interval.friday.observe(context!! as LifecycleOwner, Observer {
+            holder.activeDaysBtn.text = resolveDayConfigString(interval)
+        })
+    }
+
+    private fun resolveTimeString(hour: Int, minute: Int): String {
+        val sb = StringBuilder()
+        if (hour < 10) sb.append("0")
+        sb
+            .append(hour.toString())
+            .append(":")
+        if (minute < 10) sb.append("0")
+        sb.append(minute.toString())
+        return sb.toString()
+    }
+
+    private fun resolveDayConfigString(model: IntervalViewModel): String{
+        context ?: return ""
+
+        val sunday = model.sunday.value ?: 0
+        val monday = model.monday.value ?: 0
+        val tuesday = model.tuesday.value ?: 0
+        val wednesday = model.wednesday.value ?: 0
+        val thursday = model.thursday.value ?: 0
+        val friday = model.friday.value ?: 0
+        val saturday = model.saturday.value ?: 0
+
+        val sb = StringBuilder()
+        if(sunday == 1)
+            sb.append(context!!.getString(R.string.sunday))
+        if(monday == 1)
+            sb.append(" " + context!!.getString(R.string.monday))
+        if(tuesday == 1)
+            sb.append(" " + context!!.getString(R.string.tuesday))
+        if(wednesday == 1)
+            sb.append(" " + context!!.getString(R.string.wednesday))
+        if(thursday == 1)
+            sb.append(" " + context!!.getString(R.string.thursday))
+        if(friday == 1)
+            sb.append(" " + context!!.getString(R.string.friday))
+        if(saturday == 1)
+            sb.append(" " + context!!.getString(R.string.saturday))
+
+        return sb.toString()
     }
 }
