@@ -10,38 +10,36 @@ import java.util.*
 object DelayedUpdateService {
 
     private val resultPublisher: PublishSubject<StationConfig> = PublishSubject.create()
-    private var stationConfig: StationConfig? = null
 
     private var wasRecentlyScheduled = false
 
 
-
-    private val timer = Timer()
+    private var timer = Timer()
 
     fun notifyChange(stationConfig: StationConfig) {
 
-        if(wasRecentlyScheduled)
+        if (wasRecentlyScheduled) {
             timer.cancel()
+            timer = Timer()
+        }
+
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                DelayedUpdateService.stationConfig?.let {
-                    ApiService.updateConfiguration(it)
-                        .doFinally{ wasRecentlyScheduled = false}
-                        .subscribe(
-                            {
-                                ApiService.getConfiguration().subscribe(
-                                    { resultPublisher.onNext(it) },
-                                    { resultPublisher.onError(it) }
-                                )
-                            },
-                            { resultPublisher.onError(it) }
-                        )
-                        .also { DisposableService.add(it) }
-                }
+                ApiService.updateConfiguration(stationConfig)
+                    .doFinally { wasRecentlyScheduled = false }
+                    .subscribe(
+                        {
+                            ApiService.getConfiguration().subscribe(
+                                { resultPublisher.onNext(it) },
+                                { resultPublisher.onError(it) }
+                            )
+                        },
+                        { resultPublisher.onError(it) }
+                    )
+                    .also { DisposableService.add(it) }
             }
-
-        }, 5000)
+        }, 2000)
 
         wasRecentlyScheduled = true
 

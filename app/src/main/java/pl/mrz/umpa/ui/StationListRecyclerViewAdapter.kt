@@ -11,9 +11,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import pl.mrz.umpa.R
+import pl.mrz.umpa.model.StationConfig
 import pl.mrz.umpa.model.ZoneConfig
 
-class StationListRecyclerViewAdapter(private val zones: List<MutableLiveData<ZoneConfig>>) :
+class StationListRecyclerViewAdapter(private val zones: List<MutableLiveData<ZoneConfig>>, private val stationConfig: StationConfig) :
     RecyclerView.Adapter<StationListRecyclerViewAdapter.ViewHolder>() {
 
     private var context: Context? = null
@@ -83,7 +84,10 @@ class StationListRecyclerViewAdapter(private val zones: List<MutableLiveData<Zon
     private fun navigateToIntervalList(zoneConfig: ZoneConfig) {
         context ?: return
         val intent = Intent(context!!, IntervalListActivity::class.java)
-            .apply { putExtra(context!!.getString(R.string.intent_key_zone), zoneConfig) }
+            .apply {
+                putExtra("station", stationConfig)
+                putExtra(context!!.getString(R.string.intent_key_zone), zoneConfig)
+            }
         context!!.startActivity(intent)
     }
 }

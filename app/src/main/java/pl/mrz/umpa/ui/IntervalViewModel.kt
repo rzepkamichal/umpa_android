@@ -26,7 +26,7 @@ class IntervalViewModel : ViewModel() {
         openValveHour.value = interval.openValveHour
         openValveMinute.value = interval.openValveMinute
         closeValveHour.value = interval.closeValveHour
-        closeValveMinute.value = interval.openValveMinute
+        closeValveMinute.value = interval.closeValveMinute
         sunday.value = interval.sunday
         monday.value = interval.monday
         tuesday.value = interval.tuesday

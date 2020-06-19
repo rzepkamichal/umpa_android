@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import pl.mrz.umpa.R
+import pl.mrz.umpa.model.StationConfig
 import pl.mrz.umpa.model.ZoneConfig
 import pl.mrz.umpa.service.ApiService
 import pl.mrz.umpa.service.DisposableService
@@ -20,6 +21,7 @@ class StationListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: StationListRecyclerViewAdapter
 
+    private val stationConfig = StationConfig()
     private val zones: LinkedList<MutableLiveData<ZoneConfig>> = LinkedList()
     private val todayRain = MutableLiveData<Float>()
     private val maxRain = MutableLiveData<Float>()
@@ -33,12 +35,13 @@ class StationListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_stationlist)
         bindViews()
         initRecyclerView()
+
     }
 
     override fun onResume() {
         super.onResume()
-        initDataObservers()
         loadData()
+        initDataObservers()
     }
 
     override fun onPause() {
@@ -55,7 +58,7 @@ class StationListActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        recyclerViewAdapter = StationListRecyclerViewAdapter(zones)
+        recyclerViewAdapter = StationListRecyclerViewAdapter(zones, stationConfig)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -83,6 +86,7 @@ class StationListActivity : AppCompatActivity() {
         ApiService.getConfiguration()
             .subscribe(
                 {
+                    stationConfig.update(it)
                     maxRain.value = it.maxRainInDay
                     if (zones.isEmpty()) {
                         zones.addAll(it.zones.map {
