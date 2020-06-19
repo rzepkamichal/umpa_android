@@ -59,7 +59,6 @@ class IntervalListActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.intervallist_item_recycler_view)
         swipeRefresh = findViewById(R.id.intervallist_swipe_refresh)
         backBtn = findViewById(R.id.return_save_toolbar_return_btn)
-        saveBtn = findViewById(R.id.return_save_toolbar_save_btn)
 
         backBtn.setOnClickListener {
             if (backPossible) startActivity(Intent(this, StationListActivity::class.java))
