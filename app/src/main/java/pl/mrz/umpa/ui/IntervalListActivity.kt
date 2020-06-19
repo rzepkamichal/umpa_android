@@ -21,13 +21,12 @@ class IntervalListActivity : AppCompatActivity() {
     private lateinit var recyclerViewAdapter: IntervalListRecyclerViewAdapter
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var backBtn: ImageButton
-    private lateinit var saveBtn: ImageButton
 
     private lateinit var stationConfig: StationConfig
     private lateinit var zoneConfig: ZoneConfig
     private val models: LinkedList<IntervalViewModel> = LinkedList()
 
-    private var shouldNotifyUpdateService = false
+    private var canNotifyUpdateService = false
     private var backPossible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +45,7 @@ class IntervalListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        shouldNotifyUpdateService = true
+        canNotifyUpdateService = true
         backPossible = true
     }
 
@@ -55,13 +54,20 @@ class IntervalListActivity : AppCompatActivity() {
         super.onPause()
     }
 
+    override fun onDestroy() {
+        DisposableService.clear()
+        super.onDestroy()
+    }
+
     private fun bindViews() {
         recyclerView = findViewById(R.id.intervallist_item_recycler_view)
         swipeRefresh = findViewById(R.id.intervallist_swipe_refresh)
         backBtn = findViewById(R.id.return_save_toolbar_return_btn)
 
         backBtn.setOnClickListener {
-            if (backPossible) startActivity(Intent(this, StationListActivity::class.java))
+            if (backPossible) {startActivity(Intent(applicationContext, ZoneListActivity::class.java))
+            DisposableService.clear()
+            }
         }
     }
 
@@ -88,8 +94,8 @@ class IntervalListActivity : AppCompatActivity() {
     }
 
     private fun notifyUpdateService(model: IntervalViewModel) {
-        if (!shouldNotifyUpdateService) return
-        stationConfig.updateInterval(model, zoneId = zoneConfig.id, intervalId = model.id)
+        if (!canNotifyUpdateService) return
+        stationConfig.updateWithIntervalModel(model, zoneId = zoneConfig.id, intervalId = model.id)
         backPossible = false
         DelayedUpdateService.notifyChange(stationConfig)
 
@@ -99,7 +105,7 @@ class IntervalListActivity : AppCompatActivity() {
         DelayedUpdateService.getResults()
             .subscribe(
                 {
-                    shouldNotifyUpdateService = false
+                    canNotifyUpdateService = false
 
                     zoneConfig = stationConfig.zones.find { it.id == zoneConfig.id } ?: zoneConfig
                     models.forEach { interval ->
@@ -109,7 +115,7 @@ class IntervalListActivity : AppCompatActivity() {
                     }
                     recyclerViewAdapter.notifyDataSetChanged()
 
-                    shouldNotifyUpdateService = true
+                    canNotifyUpdateService = true
                     backPossible = true
                 },
                 {}

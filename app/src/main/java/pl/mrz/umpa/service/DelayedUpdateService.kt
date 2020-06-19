@@ -39,7 +39,7 @@ object DelayedUpdateService {
                     )
                     .also { DisposableService.add(it) }
             }
-        }, 2000)
+        }, 500)
 
         wasRecentlyScheduled = true
 
