@@ -9,6 +9,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="mm"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/stationlist_text_rain_today"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
@@ -41,26 +53,27 @@
             android:id="@+id/stationlist_text_max_rain"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="numberDecimal"
             android:textAlignment="textEnd"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
-            app:layout_constraintEnd_toEndOf="@+id/stationlist_text_rain_today"
+            app:layout_constraintEnd_toStartOf="@+id/textView13"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/stationlist_text_rain_today" />
+            app:layout_constraintStart_toEndOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/stationlist_text_rain_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="TextView"
+            android:layout_marginEnd="8dp"
             android:textColor="#000000"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView14"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
@@ -99,6 +112,16 @@
                 android:layout_marginBottom="16dp" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mm"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/stationlist_text_max_rain"
+            app:layout_constraintEnd_toEndOf="@+id/textView14" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
