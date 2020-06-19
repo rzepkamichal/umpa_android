@@ -20,6 +20,7 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.intervallist_item, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -44,7 +45,10 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
                 .show((context!! as AppCompatActivity).supportFragmentManager, "")
         }
 
-        holder.activeDaysBtn.setOnClickListener {}
+        holder.activeDaysBtn.setOnClickListener {
+            DaySelector(intervals[position])
+                .show((context!! as AppCompatActivity).supportFragmentManager, "")
+        }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -64,7 +68,7 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
         val activeDaysBtn: Button = itemView.findViewById(R.id.intervallist_item_active_days_btn)
     }
 
-    private fun initModelObservers(holder: ViewHolder, interval: IntervalViewModel){
+    private fun initModelObservers(holder: ViewHolder, interval: IntervalViewModel) {
         interval.openValveHour.observe(context!! as LifecycleOwner, Observer {
             val minute = interval.openValveMinute.value ?: 0
             holder.openTimeBtn.text = resolveTimeString(it, minute)
@@ -125,7 +129,7 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
         return sb.toString()
     }
 
-    private fun resolveDayConfigString(model: IntervalViewModel): String{
+    private fun resolveDayConfigString(model: IntervalViewModel): String {
         context ?: return ""
 
         val sunday = model.sunday.value ?: 0
@@ -137,19 +141,19 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
         val saturday = model.saturday.value ?: 0
 
         val sb = StringBuilder()
-        if(sunday == 1)
+        if (sunday == 1)
             sb.append(context!!.getString(R.string.sunday))
-        if(monday == 1)
+        if (monday == 1)
             sb.append(" " + context!!.getString(R.string.monday))
-        if(tuesday == 1)
+        if (tuesday == 1)
             sb.append(" " + context!!.getString(R.string.tuesday))
-        if(wednesday == 1)
+        if (wednesday == 1)
             sb.append(" " + context!!.getString(R.string.wednesday))
-        if(thursday == 1)
+        if (thursday == 1)
             sb.append(" " + context!!.getString(R.string.thursday))
-        if(friday == 1)
+        if (friday == 1)
             sb.append(" " + context!!.getString(R.string.friday))
-        if(saturday == 1)
+        if (saturday == 1)
             sb.append(" " + context!!.getString(R.string.saturday))
 
         return sb.toString()

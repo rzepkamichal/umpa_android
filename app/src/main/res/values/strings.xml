@@ -19,6 +19,14 @@
     <string name="friday">pt</string>
     <string name="saturday">sb</string>
 
+    <string name="sunday_full_name">niedziela</string>
+    <string name="monday_full_name">poniedziałek</string>
+    <string name="tuesday_full_name">wtorek</string>
+    <string name="wednesday_full_name">środa</string>
+    <string name="thursday_full_name">czwartek</string>
+    <string name="friday_full_name">piątek</string>
+    <string name="saturday_full_name">sobota</string>
+
     <string name="label_zone">Strefa</string>
     <string name="label_watering_preset">Profil</string>
     <string name="label_force_open_valve">Wymuś otwarcie zaworu</string>
