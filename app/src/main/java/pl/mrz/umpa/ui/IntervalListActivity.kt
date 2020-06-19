@@ -41,7 +41,7 @@ class IntervalListActivity : AppCompatActivity() {
         bindViews()
         initRecyclerView()
         initModelObservers()
-        observeDataUpdates()
+        observeUpdateService()
     }
 
     override fun onResume() {
@@ -96,7 +96,7 @@ class IntervalListActivity : AppCompatActivity() {
 
     }
 
-    private fun observeDataUpdates() {
+    private fun observeUpdateService() {
         DelayedUpdateService.getResults()
             .subscribe(
                 {
@@ -115,20 +115,6 @@ class IntervalListActivity : AppCompatActivity() {
                 },
                 {}
             ).also { DisposableService.add(it) }
-    }
-
-    private fun detachObservers(model: IntervalViewModel) {
-        model.openValveHour.removeObservers(this)
-        model.openValveMinute.removeObservers(this)
-        model.closeValveHour.removeObservers(this)
-        model.closeValveMinute.removeObservers(this)
-        model.sunday.removeObservers(this)
-        model.monday.removeObservers(this)
-        model.tuesday.removeObservers(this)
-        model.wednesday.removeObservers(this)
-        model.thursday.removeObservers(this)
-        model.friday.removeObservers(this)
-        model.saturday.removeObservers(this)
     }
 
 }
