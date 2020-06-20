@@ -41,4 +41,5 @@
     <string name="label_open_time">Czas otwarcia</string>
     <string name="label_close_time">Czas zamknięcia</string>
     <string name="label_active_days">Aktywne dni</string>
+    <string name="label_intervallist_zone_id">Strefa %1$d</string>
 </resources>

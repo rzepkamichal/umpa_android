@@ -3,6 +3,7 @@ package pl.mrz.umpa.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ class IntervalListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: IntervalListRecyclerViewAdapter
+    private lateinit var zoneIdTextView: TextView
     private lateinit var backBtn: ImageButton
 
     private lateinit var stationConfig: StationConfig
@@ -55,8 +57,10 @@ class IntervalListActivity : AppCompatActivity() {
 
     private fun bindViews() {
         recyclerView = findViewById(R.id.intervallist_item_recycler_view)
+        zoneIdTextView = findViewById(R.id.intervallist_zone_id)
         backBtn = findViewById(R.id.return_save_toolbar_return_btn)
 
+        zoneIdTextView.text = getString(R.string.label_intervallist_zone_id, zoneConfig.id)
         backBtn.setOnClickListener {
             if (!canGoBack) return@setOnClickListener
 
