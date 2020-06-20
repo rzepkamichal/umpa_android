@@ -18,7 +18,7 @@ object ApiService {
     private const val CONFIG_ENDPOINT = "$HOST/configuration"
     private const val RAIN_ENDPOINT = "$HOST/rain"
 
-    private val http: FuelManager = FuelManager()
+    private val http: FuelManager = buildHttpsFuelManager()
 
 
     fun getConfiguration(): Single<StationConfig> {
@@ -56,7 +56,7 @@ object ApiService {
                 init(null, trustAllCerts, java.security.SecureRandom())
             }.socketFactory
 
-            timeoutInMillisecond = 20000
+            timeoutInMillisecond = 10000
             hostnameVerifier = HostnameVerifier { _, _ -> true }
         }
     }

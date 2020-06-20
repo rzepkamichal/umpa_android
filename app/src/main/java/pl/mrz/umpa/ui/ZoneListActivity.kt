@@ -135,7 +135,10 @@ class ZoneListActivity : AppCompatActivity() {
                     if (swipeRefresh.isRefreshing)
                         swipeRefresh.isRefreshing = false
                 },
-                { ToastingService.toastConnectionError(applicationContext) }
+                {
+                    progressDialog.dismiss()
+                    ToastingService.toastConnectionError(applicationContext)
+                }
             )
             .also { DisposableService.add(it) }
     }

@@ -1,8 +1,7 @@
 package pl.mrz.umpa.service
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import pl.mrz.umpa.model.StationConfig
 import java.util.*
 
@@ -10,10 +9,7 @@ import java.util.*
 object DelayedUpdateService {
 
     private val resultPublisher: PublishSubject<Any> = PublishSubject.create()
-
     private var wasRecentlyScheduled = false
-
-
     private var timer = Timer()
 
     fun notifyChange(stationConfig: StationConfig) {
@@ -40,7 +36,7 @@ object DelayedUpdateService {
 
     }
 
-    fun getResults(): Flowable<Any> {
-        return resultPublisher.toFlowable(BackpressureStrategy.LATEST)
+    fun getResults(): Subject<Any> {
+        return resultPublisher
     }
 }
