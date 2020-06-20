@@ -21,7 +21,7 @@ class DaySelector(private val model: IntervalViewModel) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        return activity?.let {
+        return activity?.let { it ->
             val builder = AlertDialog.Builder(it)
 
             val inflater = it.layoutInflater
@@ -43,32 +43,32 @@ class DaySelector(private val model: IntervalViewModel) : DialogFragment() {
             checkBoxFriday.isChecked = model.friday.value ?: 0 == 1
             checkBoxSaturday.isChecked = model.saturday.value ?: 0 == 1
 
-            checkBoxSunday.setOnCheckedChangeListener { _, isChecked ->
-                model.sunday.value = if (isChecked) 1 else 0
+            checkBoxSunday.setOnClickListener { clickedView ->
+                model.sunday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
-            checkBoxMonday.setOnCheckedChangeListener { _, isChecked ->
-                model.monday.value = if (isChecked) 1 else 0
+            checkBoxMonday.setOnClickListener { clickedView ->
+                model.monday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
-            checkBoxTuesday.setOnCheckedChangeListener { _, isChecked ->
-                model.tuesday.value = if (isChecked) 1 else 0
+            checkBoxTuesday.setOnClickListener { clickedView ->
+                model.tuesday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
-            checkBoxWednesday.setOnCheckedChangeListener { _, isChecked ->
-                model.wednesday.value = if (isChecked) 1 else 0
+            checkBoxWednesday.setOnClickListener { clickedView ->
+                model.wednesday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
-            checkBoxThursday.setOnCheckedChangeListener { _, isChecked ->
-                model.thursday.value = if (isChecked) 1 else 0
+            checkBoxThursday.setOnClickListener { clickedView ->
+                model.thursday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
-            checkBoxFriday.setOnCheckedChangeListener { _, isChecked ->
-                model.friday.value = if (isChecked) 1 else 0
+            checkBoxFriday.setOnClickListener { clickedView ->
+                model.friday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
-            checkBoxSaturday.setOnCheckedChangeListener { _, isChecked ->
-                model.saturday.value = if (isChecked) 1 else 0
+            checkBoxSaturday.setOnClickListener { clickedView ->
+                model.saturday.value = if ((clickedView as CheckBox).isChecked) 1 else 0
             }
 
             builder.setView(view)

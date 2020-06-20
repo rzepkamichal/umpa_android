@@ -113,7 +113,7 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
             holder.activeDaysBtn.text = resolveDayConfigString(interval)
         })
 
-        interval.friday.observe(context!! as LifecycleOwner, Observer {
+        interval.saturday.observe(context!! as LifecycleOwner, Observer {
             holder.activeDaysBtn.text = resolveDayConfigString(interval)
         })
     }
@@ -156,6 +156,7 @@ class IntervalListRecyclerViewAdapter(private val intervals: List<IntervalViewMo
         if (saturday == 1)
             sb.append(" " + context!!.getString(R.string.saturday))
 
+        if(sb.isBlank()) sb.append("...")
         return sb.toString()
     }
 }
