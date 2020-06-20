@@ -96,12 +96,18 @@ class ZoneListActivity : AppCompatActivity() {
     private fun loadData() {
 
         ApiService.getConfiguration()
+            .doFinally {
+                if (swipeRefresh.isRefreshing)
+                    swipeRefresh.isRefreshing = false
+            }
             .subscribe(
                 {
                     canNotifyObservers = false
                     ApiService.getRain()
                         .doFinally {
                             progressDialog.dismiss()
+                            if (swipeRefresh.isRefreshing)
+                                swipeRefresh.isRefreshing = false
                         }
                         .subscribe(
                             {
@@ -132,8 +138,6 @@ class ZoneListActivity : AppCompatActivity() {
                     }
                     recyclerViewAdapter.notifyDataSetChanged()
                     canNotifyObservers = true
-                    if (swipeRefresh.isRefreshing)
-                        swipeRefresh.isRefreshing = false
                 },
                 {
                     progressDialog.dismiss()
