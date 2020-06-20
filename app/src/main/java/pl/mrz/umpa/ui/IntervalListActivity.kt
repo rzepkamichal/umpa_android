@@ -13,6 +13,7 @@ import pl.mrz.umpa.model.StationConfig
 import pl.mrz.umpa.model.ZoneConfig
 import pl.mrz.umpa.service.DelayedUpdateService
 import pl.mrz.umpa.service.DisposableService
+import pl.mrz.umpa.service.ToastingService
 import java.util.*
 
 class IntervalListActivity : AppCompatActivity() {
@@ -47,11 +48,6 @@ class IntervalListActivity : AppCompatActivity() {
         super.onResume()
         canNotifyUpdateService = true
         canGoBack = true
-    }
-
-    override fun onPause() {
-        DisposableService.clear()
-        super.onPause()
     }
 
     override fun onDestroy() {
@@ -105,7 +101,7 @@ class IntervalListActivity : AppCompatActivity() {
         DelayedUpdateService.getResults()
             .subscribe(
                 { canGoBack = true },
-                {}
+                { ToastingService.toastDataSaveFailed(applicationContext) }
             ).also { DisposableService.add(it) }
     }
 

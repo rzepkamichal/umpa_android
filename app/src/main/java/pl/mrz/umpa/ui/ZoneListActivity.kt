@@ -15,6 +15,7 @@ import pl.mrz.umpa.model.StationConfig
 import pl.mrz.umpa.service.ApiService
 import pl.mrz.umpa.service.DelayedUpdateService
 import pl.mrz.umpa.service.DisposableService
+import pl.mrz.umpa.service.ToastingService
 import pl.mrz.umpa.util.TwoWayData
 import java.util.*
 
@@ -64,10 +65,6 @@ class ZoneListActivity : AppCompatActivity() {
         loadData()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
     override fun onDestroy() {
         DisposableService.clear()
         super.onDestroy()
@@ -105,7 +102,7 @@ class ZoneListActivity : AppCompatActivity() {
                                 stationModel.input.rainToday.value = it.rainToday
                                 can = true
                             },
-                            {}
+                            { ToastingService.toastConnectionError(applicationContext) }
                         )
                         .also { DisposableService.add(it) }
 
@@ -131,7 +128,7 @@ class ZoneListActivity : AppCompatActivity() {
                     if (swipeRefresh.isRefreshing)
                         swipeRefresh.isRefreshing = false
                 },
-                {}
+                { ToastingService.toastConnectionError(applicationContext) }
             )
             .also { DisposableService.add(it) }
     }
@@ -176,7 +173,7 @@ class ZoneListActivity : AppCompatActivity() {
     private fun observeUpdateService() {
         DelayedUpdateService.getResults().subscribe(
             {},
-            {}
+            { ToastingService.toastDataSaveFailed(applicationContext) }
         ).also { DisposableService.add(it) }
 
     }

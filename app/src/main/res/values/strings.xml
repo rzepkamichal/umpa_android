@@ -11,6 +11,9 @@
         <item>Bardzo wymagające</item>
     </string-array>
 
+    <string name="toast_data_save_failed">Błąd siecowy. Dane nie zostały zaktualizowane.</string>
+    <string name="toast_connection_error">Błąd sieciowy. Nie można pobrać danych.</string>
+
     <string name="sunday">nd</string>
     <string name="monday">pn</string>
     <string name="tuesday">wt</string>
