@@ -33,6 +33,8 @@ class ZoneListActivity : AppCompatActivity() {
     private lateinit var maxRainTextView: TextView
     private lateinit var swipeRefresh: SwipeRefreshLayout
 
+    private var progressDialog = ProgressDialog()
+
     private val maxRainTextWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
         }
@@ -47,7 +49,7 @@ class ZoneListActivity : AppCompatActivity() {
 
     }
 
-    private var can = false
+    private var canNotifyObservers = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +63,8 @@ class ZoneListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        can = false
+        canNotifyObservers = false
+        progressDialog.show(supportFragmentManager, "")
         loadData()
     }
 
@@ -91,16 +94,20 @@ class ZoneListActivity : AppCompatActivity() {
 
 
     private fun loadData() {
+
         ApiService.getConfiguration()
             .subscribe(
                 {
-                    can = false
+                    canNotifyObservers = false
                     ApiService.getRain()
+                        .doFinally {
+                            progressDialog.dismiss()
+                        }
                         .subscribe(
                             {
-                                can = false
+                                canNotifyObservers = false
                                 stationModel.input.rainToday.value = it.rainToday
-                                can = true
+                                canNotifyObservers = true
                             },
                             { ToastingService.toastConnectionError(applicationContext) }
                         )
@@ -124,7 +131,7 @@ class ZoneListActivity : AppCompatActivity() {
                         }
                     }
                     recyclerViewAdapter.notifyDataSetChanged()
-                    can = true
+                    canNotifyObservers = true
                     if (swipeRefresh.isRefreshing)
                         swipeRefresh.isRefreshing = false
                 },
@@ -160,7 +167,7 @@ class ZoneListActivity : AppCompatActivity() {
     }
 
     private fun notifyUpdateService() {
-        if (!can) return
+        if (!canNotifyObservers) return
         zoneModels.forEach { model ->
             stationConfig.zones.find { model.output.id == it.id }
                 ?.let { stationConfig.updateWithZoneModel(model.output, model.output.id) }
