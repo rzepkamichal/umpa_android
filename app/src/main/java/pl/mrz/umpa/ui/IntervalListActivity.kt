@@ -104,20 +104,7 @@ class IntervalListActivity : AppCompatActivity() {
     private fun observeUpdateService() {
         DelayedUpdateService.getResults()
             .subscribe(
-                {
-                    canNotifyUpdateService = false
-
-                    zoneConfig = stationConfig.zones.find { it.id == zoneConfig.id } ?: zoneConfig
-                    models.forEach { interval ->
-                        zoneConfig.intervals
-                            .find { it.id == interval.id }
-                            ?.let { interval.update(it) }
-                    }
-                    recyclerViewAdapter.notifyDataSetChanged()
-
-                    canNotifyUpdateService = true
-                    backPossible = true
-                },
+                {},
                 {}
             ).also { DisposableService.add(it) }
     }

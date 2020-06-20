@@ -9,7 +9,7 @@ import java.util.*
 
 object DelayedUpdateService {
 
-    private val resultPublisher: PublishSubject<StationConfig> = PublishSubject.create()
+    private val resultPublisher: PublishSubject<Any> = PublishSubject.create()
 
     private var wasRecentlyScheduled = false
 
@@ -29,12 +29,7 @@ object DelayedUpdateService {
                 ApiService.updateConfiguration(stationConfig)
                     .doFinally { wasRecentlyScheduled = false }
                     .subscribe(
-                        {
-                            ApiService.getConfiguration().subscribe(
-                                { resultPublisher.onNext(it) },
-                                { resultPublisher.onError(it) }
-                            )
-                        },
+                        { resultPublisher.onNext(it) },
                         { resultPublisher.onError(it) }
                     )
                     .also { DisposableService.add(it) }
@@ -45,7 +40,7 @@ object DelayedUpdateService {
 
     }
 
-    fun getResults(): Flowable<StationConfig> {
+    fun getResults(): Flowable<Any> {
         return resultPublisher.toFlowable(BackpressureStrategy.LATEST)
     }
 }

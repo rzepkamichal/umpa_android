@@ -175,21 +175,7 @@ class ZoneListActivity : AppCompatActivity() {
 
     private fun observeUpdateService() {
         DelayedUpdateService.getResults().subscribe(
-            { newStationConfig ->
-
-                can = false
-                ApiService.getRain().subscribe(
-                    { newRain -> stationModel.input.update(newStationConfig, newRain) },
-                    {}
-                ).also { DisposableService.add(it) }
-
-                zoneModels.forEach { model ->
-                    newStationConfig.zones.find { model.input.id == it.id }
-                        ?.let { model.input.update(it) }
-                }
-
-                can = true
-            },
+            {},
             {}
         ).also { DisposableService.add(it) }
 
