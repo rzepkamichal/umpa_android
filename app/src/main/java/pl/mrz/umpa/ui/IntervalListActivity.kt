@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import pl.mrz.umpa.R
 import pl.mrz.umpa.model.StationConfig
 import pl.mrz.umpa.model.ZoneConfig
@@ -20,7 +19,6 @@ class IntervalListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: IntervalListRecyclerViewAdapter
-    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var backBtn: ImageButton
 
     private lateinit var stationConfig: StationConfig
@@ -57,7 +55,6 @@ class IntervalListActivity : AppCompatActivity() {
 
     private fun bindViews() {
         recyclerView = findViewById(R.id.intervallist_item_recycler_view)
-        swipeRefresh = findViewById(R.id.intervallist_swipe_refresh)
         backBtn = findViewById(R.id.return_save_toolbar_return_btn)
 
         backBtn.setOnClickListener {
