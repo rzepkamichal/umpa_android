@@ -27,7 +27,7 @@ class IntervalListActivity : AppCompatActivity() {
     private val models: LinkedList<IntervalViewModel> = LinkedList()
 
     private var canNotifyUpdateService = false
-    private var backPossible = false
+    private var canGoBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class IntervalListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         canNotifyUpdateService = true
-        backPossible = true
+        canGoBack = true
     }
 
     override fun onPause() {
@@ -65,9 +65,10 @@ class IntervalListActivity : AppCompatActivity() {
         backBtn = findViewById(R.id.return_save_toolbar_return_btn)
 
         backBtn.setOnClickListener {
-            if (backPossible) {startActivity(Intent(applicationContext, ZoneListActivity::class.java))
+            if (!canGoBack) return@setOnClickListener
+
             DisposableService.clear()
-            }
+            startActivity(Intent(applicationContext, ZoneListActivity::class.java))
         }
     }
 
@@ -96,15 +97,14 @@ class IntervalListActivity : AppCompatActivity() {
     private fun notifyUpdateService(model: IntervalViewModel) {
         if (!canNotifyUpdateService) return
         stationConfig.updateWithIntervalModel(model, zoneId = zoneConfig.id, intervalId = model.id)
-        backPossible = false
+        canGoBack = false
         DelayedUpdateService.notifyChange(stationConfig)
-
     }
 
     private fun observeUpdateService() {
         DelayedUpdateService.getResults()
             .subscribe(
-                {},
+                { canGoBack = true },
                 {}
             ).also { DisposableService.add(it) }
     }
